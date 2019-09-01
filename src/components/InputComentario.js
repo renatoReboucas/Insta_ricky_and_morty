@@ -60,9 +60,3 @@ const styles = StyleSheet.create({
     borderBottomColor: '#ddd'
   },
 })
-
-
-
-
-
-
