@@ -2,19 +2,17 @@
 import React, { Component } from 'react';
 
 import { 
-  Platform,
   StyleSheet,
   Text,
   View,
   Image,
   Dimensions,
-  ScrollView,
-  FlatList,
-  TouchableOpacity,
-  TextInput,
  } from 'react-native';
 
+ import InputComentario from './InputComentario';
+ import Likes from './Likes';
 
+ 
 // import { Container } from './styles';
 const width = Dimensions.get('screen').width;
 export default class Post extends Component {
@@ -30,7 +28,7 @@ export default class Post extends Component {
         {
           id: 1,
           login: '06',
-          texto: 'Bela foto!',
+          texto: 'Nice!',
         },
       ],
       login: '',
@@ -40,6 +38,7 @@ export default class Post extends Component {
   }
 
   like(){
+    // console.warn("entrou");
     let novaLista = []
     const like = this.state.likeada
     if( !this.state.likeada ){
@@ -57,16 +56,7 @@ export default class Post extends Component {
     this.setState({ likeada: !like, likers: novaLista })
   } 
 
-  exibeLikes(likers){
-    if( likers.length <= 0 ){
-      return;
-    }
-    return (
-      <Text style={styles.likes}>
-        {likers.length} {likers.length > 1 ? 'curtidas' : 'curtida'}
-      </Text>
-    )
-  }
+  
 
   exibeLegenda(comentario , foto){
     if( comentario === '' ){
@@ -81,24 +71,20 @@ export default class Post extends Component {
     )
   }
 
-  carregaIcone(like){
-    return like ? require('../../resources/img/s2-checked.png') :
-      require('../../resources/img/s2.png')
-  }
 
-  adicionaComentario(){
+  adicionaComentario(valorComentario, inputComentario){
     
-    if( this.state.valorComentario === '' ){
+    if( valorComentario === '' ){
       return;
     }
 
     const novaLista = [...this.state.comentarios,{
-      id: this.state.valorComentario,
+      id: valorComentario,
       login: 'meuUsuario',
-      texto: this.state.valorComentario
+      texto: valorComentario
     }]
-    this.setState({ comentarios: novaLista, valorComentario: '' })
-    this.inputComentario.clear()
+    this.setState({ comentarios: novaLista})
+    inputComentario.clear()
 
   }
 
@@ -116,15 +102,8 @@ export default class Post extends Component {
           style={styles.foto}
         />
         <View style={styles.rodape}>
-          <TouchableOpacity onPress={this.like.bind(this)}>
-            <Image source={this.carregaIcone(this.state.likeada) } 
-              // require('../../resources/img/s2.png')
-                style={ styles.btnLike }
-              />
-          </TouchableOpacity>
-          
-          
-          {this.exibeLikes(this.state.likers)}
+
+          <Likes likeada={this.state.likeada} likers={this.state.likers} foto={foto} likeCallback={this.like.bind(this)} />
           
           {this.exibeLegenda(this.state.comentario, foto)}
 
@@ -135,19 +114,9 @@ export default class Post extends Component {
             </View>
         )}
 
-        <View style={styles.novoComentario}>
-            <TextInput style={styles.input}
-              placeholder="Adicione um comentario..."
-              ref={ input => this.inputComentario = input }
-              onChangeText={texto => this.setState({valorComentario: texto})}
-              />
+          <InputComentario comentarioCallback={this.adicionaComentario.bind(this)}/>
 
-            <TouchableOpacity onPress={ this.adicionaComentario.bind(this) }>
-              <Image style={styles.icone} 
-              source={require('../../resources/img/send.png')} >
-              </Image>
-            </TouchableOpacity>
-        </View>
+       
 
         </View>
       </View>
@@ -171,17 +140,11 @@ const styles = StyleSheet.create({
     width: width,
     height: width
   },
-  btnLike: {
-    width: 35,
-    height: 35,
-    marginBottom: 10
-  },
+  
   rodape:{
     margin: 15
   },
-  likes:{
-    fontWeight: 'bold'
-  },
+ 
   comentario:{
     flexDirection: 'row'
 
@@ -190,20 +153,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginRight: 5
   },
-  input: {
-    flex: 1,
-    height: 40,
-  },
-  icone:{
-    width: 30,
-    height: 30
-  },
-  novoComentario:{
-    flexDirection: 'row',
-    alignItems: 'center',
-    borderBottomWidth: 1,
-    borderBottomColor: '#ddd'
-  },
+
 
 
 });

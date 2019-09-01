@@ -59,10 +59,11 @@ class App extends Component {
   );
 }
 }
-
+// verificando qual plataforma e
+const margin = Platform.OS === 'ios' ? 30 : 0
 const styles = StyleSheet.create({
   container: {
-    marginTop: 30
+    marginTop: margin
   }
 
 });
