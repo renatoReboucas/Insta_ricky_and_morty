@@ -36,7 +36,7 @@ export default class Login extends Component {
       // const dados =  AsyncStorage.getItem('token')
       // console.warn( dados )
     }else{
-      this.setState({mensagem : 'Nao foi possivel efetuar o login'})
+      this.setState({mensagem : 'Não foi possivel efetuar o login!'})
     }
     // throw new Error("Nao foi possivel efetuar o login")
     
@@ -56,7 +56,7 @@ export default class Login extends Component {
             autoCapitalize="none"
             secureTextEntry={true}
           />
-          <Button title="Login" onPress={ this.efetuaLogin.bind(this) } />
+          <Button style={styles.btn} title="Login" onPress={ this.efetuaLogin.bind(this) } />
       </View>
         <Text style={styles.msg}>
           {this.state.mensagem}
@@ -87,6 +87,10 @@ const styles = StyleSheet.create({
   },
   msg: {
     margin: 15,
+    fontSize: 20,
     color: '#e74c3c'
+  },
+  btn:{
+    marginTop: 50
   }
 })
