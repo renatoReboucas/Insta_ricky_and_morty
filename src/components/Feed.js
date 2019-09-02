@@ -22,6 +22,7 @@ export default class Feed extends Component {
   }
 
   async componentDidMount() {
+    // https://instalura-api.herokuapp.com/api/public/fotos/rafael
     const response = await fetch('https://rickandmortyapi.com/api/character/')
     const responseJson = await response.json()
     this.setState({ fotos: responseJson.results })
